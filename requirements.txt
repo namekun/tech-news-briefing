@@ -1,0 +1,6 @@
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+pyyaml>=6.0
+
+# Anthropic provider 사용 시 (선택)
+# anthropic>=0.40.0

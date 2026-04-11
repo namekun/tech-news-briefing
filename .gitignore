@@ -1,0 +1,17 @@
+# 개인 설정 (config.example.yaml을 복사해서 사용)
+config.local.yaml
+
+# 수집 데이터 및 생성 파일
+data/
+output/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# 기타
+.DS_Store
+*.log

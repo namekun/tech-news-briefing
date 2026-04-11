@@ -1,0 +1,43 @@
+# Tech News Briefing 설정 예시
+# 이 파일을 config.local.yaml로 복사하고 값을 채우세요.
+# 또는: python setup.py
+
+llm:
+  # provider: lmstudio | ollama | openai | anthropic | openrouter | custom
+  provider: lmstudio
+
+  # OpenAI 호환 URL (anthropic은 비워두세요)
+  url: http://127.0.0.1:1234/v1
+
+  # API 키 (로컬 LLM은 비워두세요)
+  api_key: ""
+
+  # 모델명 예시:
+  #   lmstudio:   gemma-4-e4b-it
+  #   ollama:     gemma3:4b
+  #   openai:     gpt-4o-mini
+  #   anthropic:  claude-haiku-4-5-20251001
+  #   openrouter: anthropic/claude-haiku-4-5
+  model: gemma-4-e4b-it
+
+keywords:
+  # 관심 키워드 — 제목/설명에 포함된 뉴스만 수집
+  - Java
+  - Spring
+  - Kotlin
+  - JVM
+  - Elasticsearch
+  - Lucene
+  - OpenSearch
+  - AI
+  - LLM
+  - ML
+  - Kafka
+  - Redis
+  - PostgreSQL
+  - MySQL
+  - Kubernetes
+  - Docker
+  - DevOps
+  - Backend
+  - microservice
