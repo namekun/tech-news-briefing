@@ -25,17 +25,14 @@ def remove_old_entries(entries):
 
 
 def deduplicate(items):
-    """오늘 이미 전송된 URL을 제외한 항목만 반환한다.
+    """최근 N일간 전송된 모든 URL을 제외한 항목만 반환한다.
 
-    dedup 키: (date, url) 조합.
-    - 같은 날짜 + 같은 URL → 중복 (재전송 방지)
-    - 다른 날짜 + 같은 URL → 허용 (날짜가 바뀌면 재전송 가능)
-    - 오늘 실패 후 재실행 시: save 성공 전엔 sent 미등록이므로 재처리됨
+    - 보관 기간(DEDUP_RETENTION_DAYS) 내의 URL은 절대 반복하지 않음
+    - 보관 기간이 지난 URL은 new로 취급해 재전송 가능
     """
     sent = load_sent()
-    today = datetime.now().strftime("%Y-%m-%d")
-    sent_keys = {(e["date"], e["url"]) for e in sent}
-    return [item for item in items if (today, item["url"]) not in sent_keys]
+    sent_urls = {e["url"] for e in sent}  # 최근 N일 내 모든 URL
+    return [item for item in items if item["url"] not in sent_urls]
 
 
 def mark_as_sent(items):
