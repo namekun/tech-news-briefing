@@ -23,7 +23,7 @@ HN_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item/{}.json"
 GITHUB_TRENDING_URL = "https://github.com/trending?since=daily"
 
 # HN에서 가져올 항목 수
-HN_FETCH_COUNT = 15
+HN_FETCH_COUNT = 50
 
 # ── config.local.yaml 로드 ──────────────────────────────────
 _CONFIG_FILE = BASE_DIR / "config.local.yaml"
