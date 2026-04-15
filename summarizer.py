@@ -8,8 +8,8 @@ from config import (
 
 def _strip_thinking(text: str) -> str:
     """Gemma4 계열 모델의 thinking 채널 토큰 제거."""
-    # <|channel>thought ... </channel> 형태 제거
-    text = re.sub(r'<\|channel\>.*?</channel>', '', text, flags=re.DOTALL)
+    # <|channel>thought|thinking ... </channel> 형태만 제거 (실제 답변 채널 보호)
+    text = re.sub(r'<\|channel\>(?:thought|thinking)\b.*?</channel>', '', text, flags=re.DOTALL)
     # =====로 구분된 thinking 블록 제거 (mlx_lm generate 출력 형식)
     text = re.sub(r'^=+\n.*?\n=+\n', '', text, flags=re.DOTALL)
     return text.strip()
@@ -34,12 +34,12 @@ def _call_openai_compatible(messages):
     )
     resp.raise_for_status()
     msg = resp.json()["choices"][0]["message"]
-    # content → reasoning_content → reasoning 순서로 fallback
-    content = _strip_thinking(msg.get("content", "").strip())
+    # content → reasoning_content → reasoning 순서로 fallback (None-safe)
+    content = _strip_thinking((msg.get("content") or "").strip())
     if not content:
-        content = _strip_thinking(msg.get("reasoning_content", "").strip())
+        content = _strip_thinking((msg.get("reasoning_content") or "").strip())
     if not content:
-        content = _strip_thinking(msg.get("reasoning", "").strip())
+        content = _strip_thinking((msg.get("reasoning") or "").strip())
     return content
 
 
@@ -58,7 +58,7 @@ def _call_anthropic(messages):
     client = _anthropic.Anthropic(api_key=LLM_API_KEY)
     response = client.messages.create(
         model=LLM_MODEL,
-        max_tokens=512,
+        max_tokens=2048,
         system=system,
         messages=user_messages,
     )
